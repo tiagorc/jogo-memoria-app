@@ -204,12 +204,6 @@ fastlane/test_output
 
 iOSInjectionProject/
 
-### SwiftPackageManager ###
-Packages
-xcuserdata
-*.xcodeproj
-
-
 ### VisualStudioCode ###
 .vscode/*
 !.vscode/tasks.json
