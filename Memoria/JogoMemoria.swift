@@ -41,8 +41,8 @@ struct JogoMemoria<ConteudoCarta> where ConteudoCarta: Equatable { //Model
         if let indiceCartaEscolhida = cartas.firstIndex(matching: carta) {
             if let possivelCombinacao = indiceCartaPreviamenteEscolhida {
                 if cartas[indiceCartaEscolhida].conteudo == cartas[possivelCombinacao].conteudo {
-                    cartas[indiceCartaEscolhida].estaCombina = true
-                    cartas[possivelCombinacao].estaCombina = true
+                    cartas[indiceCartaEscolhida].estaCombinada = true
+                    cartas[possivelCombinacao].estaCombinada = true
                 }
                 cartas[indiceCartaEscolhida].estaViradaParaCima = true
             }else {
@@ -55,10 +55,57 @@ struct JogoMemoria<ConteudoCarta> where ConteudoCarta: Equatable { //Model
     
     struct Carta: Identifiable {
         var id: Int
-        var estaViradaParaCima = false
-        var estaCombina = false
+        var estaViradaParaCima = false {
+            didSet {
+                if estaViradaParaCima {
+                    comecarUsarTempoBonus()
+                }else {
+                    pararUsarTempoBonus()
+                }
+            }
+        }
+        var estaCombinada = false {
+            didSet {
+                pararUsarTempoBonus()
+            }
+        }
         var conteudo: ConteudoCarta
         
+        var tempoBonus: TimeInterval = 6
+        
+        var ultimaVezVirouParaCima: Date?
+        var ultimoTempoQueFicouViradaParaCima: TimeInterval = 0
+        
+        private var tempoViradaParaCima: TimeInterval {
+            if let ulimaVirada = self.ultimaVezVirouParaCima {
+                return ultimoTempoQueFicouViradaParaCima + Date().timeIntervalSince(ulimaVirada)
+            }else {
+                return ultimoTempoQueFicouViradaParaCima
+            }
+        }
+        
+        var bonusRestante: Double {
+            (tempoBonus > 0 && tempoBonusRestante > 0) ? tempoBonusRestante / tempoBonus : 0
+        }
+        
+        var tempoBonusRestante: TimeInterval {
+            max(0, tempoBonus - tempoViradaParaCima)
+        }
+        
+        var estaConsumindoTempoBonus: Bool {
+            estaViradaParaCima && !estaCombinada && tempoBonusRestante > 0
+        }
+        
+        private mutating func comecarUsarTempoBonus() {
+            if estaConsumindoTempoBonus, ultimaVezVirouParaCima == nil {
+                ultimaVezVirouParaCima = Date()
+            }
+         }
+        
+        private mutating func pararUsarTempoBonus() {
+            ultimoTempoQueFicouViradaParaCima = tempoViradaParaCima
+            ultimaVezVirouParaCima = nil
+        }
     
     }
     

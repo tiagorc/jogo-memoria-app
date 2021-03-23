@@ -15,7 +15,7 @@ struct JogoMemoriaEmojiView: View { // View
     var body: some View {
         VStack {
             Grid(viewModel.cartas) { carta in
-                CardView(carta: carta, numeroPares: viewModel.numeroPares)
+                CardView(carta: carta)
                     .onTapGesture {
                         withAnimation(.linear) {
                             viewModel.escolher(carta: carta)
@@ -40,27 +40,52 @@ struct JogoMemoriaEmojiView: View { // View
 
 struct CardView: View {
     var carta: JogoMemoria<String>.Carta
-    var numeroPares: Int
     
-    private var fonteConteudo: Font {
-        if numeroPares == 5 {
-            return Font.caption
+    @State
+    private var tempoRestanteBonus: Double = 0
+    
+    private func comecarAnimacaoCronometro() {
+        tempoRestanteBonus = carta.bonusRestante
+        withAnimation(.linear(duration: carta.tempoBonusRestante)) {
+            tempoRestanteBonus = 0
         }
-        return Font.headline
     }
     
     var body: some View {
-        ZStack{
-            RoundedRectangle(cornerRadius: 12)
-                .stroke(lineWidth: 4)
-            Text(carta.conteudo)
-                .font(fonteConteudo)
-            
-            if !carta.estaViradaParaCima {
-                RoundedRectangle(cornerRadius: 12)
+        GeometryReader { geometry in
+            if carta.estaViradaParaCima || !carta.estaCombinada {
+                ZStack {
+                    Group {
+                        if carta.estaConsumindoTempoBonus {
+                            Cronometro(anguloInicial: Angle.degrees(0-90),
+                                       anguloFinal: Angle.degrees(-tempoRestanteBonus * 360 - 90),
+                                       sentidoHorario: true)
+                            .onAppear {
+                                comecarAnimacaoCronometro()
+                            }
+                        }else {
+                            Cronometro(anguloInicial: Angle.degrees(0-90),
+                                       anguloFinal: Angle.degrees(-carta.bonusRestante * 360 - 90),
+                                       sentidoHorario: true)
+                        }
+                    }
+                    .opacity(0.5)
+                    .padding(4)
+                    
+                    Text(carta.conteudo)
+                        .font(Font.system(size: tamanhoFonte(para: geometry.size)))
+                }
+                .fazerCarta(viradaParaCima: carta.estaViradaParaCima)
+                .transition(.scale)
             }
         }
-        .rotation3DEffect(Angle.degrees(carta.estaViradaParaCima ? 0 : 180), axis: (0, 1, 0))
+    }
+    
+    
+    // MARK: - Constantes e Funções de Desenho
+    
+    private func tamanhoFonte(para tamanho: CGSize) -> CGFloat {
+        return min(tamanho.width, tamanho.height) * 0.7
     }
 }
 

@@ -17,6 +17,8 @@
 		EB5FADB925F6DF790026BBFF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EB5FADB825F6DF790026BBFF /* Assets.xcassets */; };
 		EB5FADBC25F6DF790026BBFF /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EB5FADBB25F6DF790026BBFF /* Preview Assets.xcassets */; };
 		EB5FADC525F705970026BBFF /* JogoMemoria.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5FADC425F705970026BBFF /* JogoMemoria.swift */; };
+		EBEB258A26095B42005EEBD9 /* CartaModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBEB258926095B42005EEBD9 /* CartaModifier.swift */; };
+		EBEB258D26096579005EEBD9 /* Cronometro.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBEB258C26096579005EEBD9 /* Cronometro.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +34,8 @@
 		EB5FADBB25F6DF790026BBFF /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		EB5FADBD25F6DF790026BBFF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EB5FADC425F705970026BBFF /* JogoMemoria.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JogoMemoria.swift; sourceTree = "<group>"; };
+		EBEB258926095B42005EEBD9 /* CartaModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartaModifier.swift; sourceTree = "<group>"; };
+		EBEB258C26096579005EEBD9 /* Cronometro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cronometro.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +79,8 @@
 				EB0BEE95260021F700DB4F20 /* Array+Only.swift */,
 				EB0BEE982600392100DB4F20 /* Grid.swift */,
 				EB0BEE9B260039DE00DB4F20 /* GridLayout.swift */,
+				EBEB258926095B42005EEBD9 /* CartaModifier.swift */,
+				EBEB258C26096579005EEBD9 /* Cronometro.swift */,
 			);
 			path = Memoria;
 			sourceTree = "<group>";
@@ -157,6 +163,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EB0BEE9326001E8400DB4F20 /* Array+Identifiable.swift in Sources */,
+				EBEB258D26096579005EEBD9 /* Cronometro.swift in Sources */,
 				EB5FADB725F6DF760026BBFF /* JogoMemoriaEmojiView.swift in Sources */,
 				EB5FADC525F705970026BBFF /* JogoMemoria.swift in Sources */,
 				EB0BEE96260021F700DB4F20 /* Array+Only.swift in Sources */,
@@ -164,6 +171,7 @@
 				EB0BEE992600392100DB4F20 /* Grid.swift in Sources */,
 				EB5FADB525F6DF760026BBFF /* MemoriaApp.swift in Sources */,
 				EB0BEE9C260039DE00DB4F20 /* GridLayout.swift in Sources */,
+				EBEB258A26095B42005EEBD9 /* CartaModifier.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
