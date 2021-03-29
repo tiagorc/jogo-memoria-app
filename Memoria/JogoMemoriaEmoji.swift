@@ -12,7 +12,7 @@ class JogoMemoriaEmoji: ObservableObject { //ViewModel
     @Published
     var model: JogoMemoria<String> = JogoMemoriaEmoji.criarJogoMemoria()
     
-
+    
     static func criarJogoMemoria() -> JogoMemoria<String> {
         
         var emojis = ["🍇", "🥑", "🌶", "🌽", "🥐", "🍉"].shuffled()

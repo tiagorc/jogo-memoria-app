@@ -74,6 +74,8 @@ struct CardView: View {
                     
                     Text(carta.conteudo)
                         .font(Font.system(size: tamanhoFonte(para: geometry.size)))
+                        .rotationEffect(Angle.degrees(carta.estaCombinada ? 360 : 0))
+                        .animation(carta.estaCombinada ? Animation.linear(duration: 3).repeatForever(autoreverses: false) : .default)
                 }
                 .fazerCarta(viradaParaCima: carta.estaViradaParaCima)
                 .transition(.scale)
