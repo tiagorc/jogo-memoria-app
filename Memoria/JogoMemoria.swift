@@ -10,7 +10,7 @@ import Foundation
 struct JogoMemoria<ConteudoCarta> where ConteudoCarta: Equatable { //Model
     var cartas: [Carta]
     
-    private var indiceUnicaCartaViradaParaCima: Int?
+//    private var indiceUnicaCartaViradaParaCima: Int?
     
     private var indiceCartaPreviamenteEscolhida: Int? {
         get {
@@ -45,13 +45,28 @@ struct JogoMemoria<ConteudoCarta> where ConteudoCarta: Equatable { //Model
                     cartas[possivelCombinacao].estaCombinada = true
                 }
                 cartas[indiceCartaEscolhida].estaViradaParaCima = true
+                verificaPontuacaoFinal()
             }else {
                 indiceCartaPreviamenteEscolhida = indiceCartaEscolhida
             }
+        } else {
+            
         }
         
     }
     
+    fileprivate func verificaPontuacaoFinal() {
+        if cartas.filter({$0.estaCombinada == false}).count > 0 {
+            return
+        }
+        
+        var bonus: Double = .zero
+        for carta in cartas {
+            bonus += carta.bonusRestante
+        }
+        
+        print("Pontuacao final: \(bonus)")
+    }
     
     struct Carta: Identifiable {
         var id: Int
