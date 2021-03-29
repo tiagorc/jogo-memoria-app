@@ -10,11 +10,12 @@ import SwiftUI
 @main
 struct MemoriaApp: App {
     
-    let viewModel = JogoMemoriaEmoji()
+    
     
     var body: some Scene {
         WindowGroup {
-            JogoMemoriaEmojiView(viewModel: viewModel)
+            TemaView()
+            
         }
     }
 }
