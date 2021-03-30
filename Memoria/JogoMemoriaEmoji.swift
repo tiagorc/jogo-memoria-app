@@ -10,12 +10,20 @@ import Foundation
 class JogoMemoriaEmoji: ObservableObject { //ViewModel
     
     @Published
-    var model: JogoMemoria<String> = JogoMemoriaEmoji.criarJogoMemoria()
+    var model: JogoMemoria<String>
+    var tema: Tema
     
+    var jogoAcabou: Bool {
+        model.jogoAcabou
+    }
     
-    static func criarJogoMemoria() -> JogoMemoria<String> {
-        
-        var emojis = ["🍇", "🥑", "🌶", "🌽", "🥐", "🍉"].shuffled()
+    init(tema: Tema) {
+        self.tema = tema
+        model = JogoMemoriaEmoji.criarJogoMemoria(tema: tema)
+    }
+    
+    static func criarJogoMemoria(tema: Tema) -> JogoMemoria<String> {
+        var emojis = tema.emojis.shuffled()
         emojis = emojis.dropLast(emojis.count - Int.random(in: 2...5))
         
         return JogoMemoria<String>(numeroParesCartas: emojis.count) { emojis[$0] }
@@ -38,8 +46,6 @@ class JogoMemoriaEmoji: ObservableObject { //ViewModel
     }
     
     func novoJogo() {
-        model = JogoMemoriaEmoji.criarJogoMemoria()
+        model = JogoMemoriaEmoji.criarJogoMemoria(tema: self.tema)
     }
-    
-    
 }

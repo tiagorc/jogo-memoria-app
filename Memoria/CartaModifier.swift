@@ -24,19 +24,27 @@ struct CartaModifier: ViewModifier {
     private let cornerRadius: CGFloat = 12
     private let espessuraDaLinha: CGFloat = 4
     
-    
+    @ViewBuilder
     func body(content: Content) -> some View {
         ZStack {
-            Group {
-                RoundedRectangle(cornerRadius: cornerRadius).fill(Color.white)
-                RoundedRectangle(cornerRadius: cornerRadius).stroke(lineWidth: espessuraDaLinha)
-                content
-            }.opacity(viradaParaCima ? 1 : 0)
+            cartaViradaParaCima(content: content)
+                .opacity(viradaParaCima ? 1 : 0)
             
-            RoundedRectangle(cornerRadius: cornerRadius).fill()
+            cartaViradaParaBaixo()
                 .opacity(viradaParaCima ? 0 : 1)
         }
         .rotation3DEffect(Angle.degrees(rotacao), axis: (0, 1, 0))
+    }
+    
+    @ViewBuilder
+    func cartaViradaParaCima(content: Content) -> some View {
+        RoundedRectangle(cornerRadius: cornerRadius).fill(Color.white)
+        RoundedRectangle(cornerRadius: cornerRadius).stroke(lineWidth: espessuraDaLinha)
+        content
+    }
+    
+    func cartaViradaParaBaixo() -> some View {
+        RoundedRectangle(cornerRadius: cornerRadius).fill()
     }
     
 }

@@ -14,14 +14,18 @@ struct JogoMemoriaEmojiView: View { // View
     
     var body: some View {
         VStack {
-            Grid(viewModel.cartas) { carta in
-                CardView(carta: carta)
-                    .onTapGesture {
-                        withAnimation(.linear) {
-                            viewModel.escolher(carta: carta)
+            if viewModel.jogoAcabou {
+                gameOver()
+            } else {
+                Grid(viewModel.cartas) { carta in
+                    CardView(carta: carta)
+                        .onTapGesture {
+                            withAnimation(.linear) {
+                                viewModel.escolher(carta: carta)
+                            }
                         }
-                    }
-                    .padding(4)
+                        .padding(4)
+                }
             }
             
             Button("Novo Jogo") {
@@ -32,7 +36,29 @@ struct JogoMemoriaEmojiView: View { // View
         }
         
         .padding()
-        .foregroundColor(Color.purple)
+        .foregroundColor(viewModel.tema.cor)
+    }
+    
+    @ViewBuilder
+    func gameOver() -> some View {
+        let ultimaPontuacao = recuperaUltimaPontuacao()
+        let melhorPontuacao = recuperaMelhorPontuacao()
+        
+        Spacer()
+        if ultimaPontuacao == melhorPontuacao {
+            Text("Novo recorde: " + String(format: "%.2f", melhorPontuacao))
+        } else {
+            Text("Ultima pontuação: " + String(format: "%.2f", ultimaPontuacao))
+        }
+        Spacer()
+    }
+    
+    func recuperaUltimaPontuacao() -> Double {
+        UserDefaults.standard.double(forKey: UserDefaultKeys.ultimoBonus.rawValue)
+    }
+    
+    func recuperaMelhorPontuacao() -> Double {
+        UserDefaults.standard.double(forKey: UserDefaultKeys.melhorBonus.rawValue)
     }
     
 }
@@ -92,29 +118,8 @@ struct CardView: View {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        JogoMemoriaEmojiView(viewModel: JogoMemoriaEmoji())
+        JogoMemoriaEmojiView(viewModel: JogoMemoriaEmoji(tema: Tema(cor: Color.clear, emojis: [], nome: "")))
     }
 }

@@ -10,7 +10,9 @@ import Foundation
 struct JogoMemoria<ConteudoCarta> where ConteudoCarta: Equatable { //Model
     var cartas: [Carta]
     
-//    private var indiceUnicaCartaViradaParaCima: Int?
+    var jogoAcabou: Bool {
+        cartas.allSatisfy({ $0.estaCombinada })
+    }
     
     private var indiceCartaPreviamenteEscolhida: Int? {
         get {
@@ -22,7 +24,6 @@ struct JogoMemoria<ConteudoCarta> where ConteudoCarta: Equatable { //Model
             }
         }
     }
-    
     
     init(numeroParesCartas: Int, fabricaConteudoCartas: (Int) -> ConteudoCarta) {
         
@@ -49,10 +50,7 @@ struct JogoMemoria<ConteudoCarta> where ConteudoCarta: Equatable { //Model
             }else {
                 indiceCartaPreviamenteEscolhida = indiceCartaEscolhida
             }
-        } else {
-            
         }
-        
     }
     
     fileprivate func verificaPontuacaoFinal() {
@@ -65,7 +63,12 @@ struct JogoMemoria<ConteudoCarta> where ConteudoCarta: Equatable { //Model
             bonus += carta.bonusRestante
         }
         
-        print("Pontuacao final: \(bonus)")
+        let chave = UserDefaultKeys.melhorBonus.rawValue
+        if UserDefaults.standard.double(forKey: chave) < bonus {
+            UserDefaults.standard.setValue(bonus, forKey: chave)
+        }
+        
+        UserDefaults.standard.setValue(bonus, forKey: UserDefaultKeys.ultimoBonus.rawValue)
     }
     
     struct Carta: Identifiable {
